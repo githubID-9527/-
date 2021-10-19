@@ -11,19 +11,29 @@
     <canvas id="canvas"></canvas>
 
     <script>
-        var canvas = document.getElementById('canvas')
+        let canvas = document.getElementById('canvas')
         canvas.width = document.documentElement.clientWidth
         canvas.height = document.documentElement.clientHeight
 
-        var ctx = canvas.getContext('2d')
-
+        let ctx = canvas.getContext('2d')
         // 填充颜色
-        ctx.fillStyle = 'black';
+        ctx.fillStyle = 'black'
+
+        // 监听鼠标按下
+        let painting = false
+        canvas.onmousedown = () => {
+            painting = true
+        }
 
         // 监听鼠标移动
         canvas.onmousemove = (e) => {
-            // left top width height
-            ctx.fillRect(e.clientX - 3, e.clientY - 3, 6, 6)
+            if(painting){
+                // left top width height
+                ctx.fillRect(e.clientX - 3, e.clientY - 3, 6, 6)
+            }
+        }
+        canvas.onmouseup = () => {
+            painting = false
         }
 
     
