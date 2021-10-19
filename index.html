@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,6 +8,7 @@
     <title>画板</title>
     <link rel="stylesheet" href="/style.css">
 </head>
+
 <body>
     <canvas id="canvas"></canvas>
 
@@ -21,28 +23,40 @@
         // 描边
         ctx.strokeStyle = 'none';
 
-
-        // 监听鼠标按下
         let painting = false;
-        canvas.onmousedown = () => {
-            painting = true;
-        }
 
-        // 监听鼠标移动
-        canvas.onmousemove = (e) => {
-            if(painting){
-                // left top width height
+        var isTouchDevice = 'ontouchstart' in document.documentElement;
+        if (isTouchDevice) {
+            canvas.ontouchmove = (e) => {
+                let x = e.touches[0].clientX;
+                let y = e.touches[0].clientY;
                 ctx.beginPath();
-                ctx.arc(e.clientX , e.clientY , 10, 0, 2 * Math.PI);
+                ctx.arc(x, y, 10, 0, 2 * Math.PI);
                 ctx.stroke();
                 ctx.fill();
             }
-        }
-        canvas.onmouseup = () => {
-            painting = false;
+        } else {
+            // 监听鼠标按下
+            canvas.onmousedown = () => {
+                painting = true;
+            }
+            // 监听鼠标移动
+            canvas.onmousemove = (e) => {
+                if (painting) {
+                    // left top width height
+                    ctx.beginPath();
+                    ctx.arc(e.clientX, e.clientY, 10, 0, 2 * Math.PI);
+                    ctx.stroke();
+                    ctx.fill();
+                }
+            }
+            // 监听鼠标松开
+            canvas.onmouseup = () => {
+                painting = false;
+            }
         }
 
-    
     </script>
 </body>
+
 </html>
